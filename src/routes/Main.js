@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
-import './Board.css';
-
+import '../css/main.css';
 
 const Table = () => {
   const [data, setData] = useState([

@@ -1,10 +1,15 @@
-
+import { BrowserRouter as Router, Route, Routes} from "react-router-dom";
+import Main from './routes/Main';
+import Registration from './routes/Registration';
 
 function App() {
   return (
-    <h3>
-      안녕하세요 광클입니다.
-    </h3>
+    <Router>
+      <Routes>
+        <Route path="/" element={<Main/>}/>
+        <Route path="/registration" element={<Registration/>}/>
+      </Routes>
+    </Router>
   );
 }
 
