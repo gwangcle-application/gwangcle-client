@@ -1,9 +1,9 @@
 import { useState } from 'react';
-import { Axios as axios } from 'axios';
+import  Axios from 'axios';
 import '../css/registeration.css';
 
 const weeksData = {
-    0 :'월',
+    0 : '월',
     1 : '화',
     2 : '수',
     3 : '목',
@@ -18,11 +18,11 @@ const timesData = {
     2 : '저녁'
 }
 
-const difficultData = {
-    0 :'초급',
-    1 : '중급',
-    2 : '고급'
-}
+const difficultData = [
+    [0, '초급', 'EASY'],
+    [1, '중급', 'MIDDLE'],
+    [2, '고급', 'HARD']
+];
 
 const StudyRegistrationForm = (props) => {
     const [name, setName] = useState('');
@@ -32,7 +32,7 @@ const StudyRegistrationForm = (props) => {
     const [weeks, setWeeks] = useState([]);
     const [times, setTimes] = useState([]);
     const [capacity, setCapacity] = useState('');
-    const [announcement, setAnnouncment] = useState('');
+    const [mention, setMention] = useState('');
 
     const handleSubmit = async (event) => {
         event.preventDefault();
@@ -44,13 +44,13 @@ const StudyRegistrationForm = (props) => {
             'weeks':weeks,
             'times':times,
             'capacity':capacity,
-            'announcement':announcement
+            'mention':mention
         };
         
         const url = 'http://localhost:8080/api/boards';
         const config = { 'content-type': 'application/json' };
         try {
-            const request = await axios.post(url, data, config);
+            const request = await Axios.post(url, data, config);
         } catch (error) {
             console.log(error);
         }
@@ -70,16 +70,16 @@ const StudyRegistrationForm = (props) => {
             </label>
             <label>
                 난이도
-                {Object.entries(difficultData).map(([key, level]) => (
+                {difficultData.map(([key, label, value]) => (
                     <div key={key}>
                     <input
                         type="radio"
                         name="difficulty"
-                        value={level}
-                        checked={difficulty === level}
+                        value={value}
+                        checked={difficulty === value}
                         onChange={(e) => setDifficulty(e.target.value)}
                     />
-                    {level}
+                    {label}
                     </div>
                 ))}
             </label>
@@ -125,7 +125,7 @@ const StudyRegistrationForm = (props) => {
             </label>
             <label>
                 알림말
-                <input type="text" name="annoucement" value={announcement} onChange={(e) => setAnnouncment(e.target.value)} />
+                <input type="text" name="mention" value={mention} onChange={(e) => setMention(e.target.value)} />
             </label>
             <button type="submit">등록</button>
             </form>
