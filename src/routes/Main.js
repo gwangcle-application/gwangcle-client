@@ -2,6 +2,13 @@ import React, { useState, useEffect } from 'react';
 import  Axios from 'axios';
 import '../css/main.css';
 
+
+const timesData = {
+  'EASY' : '입문',
+  'MEDIUM' : '기본',
+  'HARD' : '심화'
+}
+
 const Table = () => {
   const [data, setData] = useState([]);
   
@@ -39,10 +46,10 @@ const Table = () => {
             <td>{row.id}</td>
             <td>{row.name}</td>
             <td>{row.content}</td>
-            <td>{row.difficulty}</td>
+            <td>{timesData[row.difficulty]}</td>
             <td>{row.location}</td>
-            <td>{row.weeks}</td>
-            <td>{row.times}</td>
+            <td>{row.weeks.join(', ')}</td>
+            <td>{row.times.join(', ')}</td>
             <td>{row.capacity}</td>
             <td>{row.mention}</td>
           </tr>

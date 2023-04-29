@@ -19,9 +19,9 @@ const timesData = {
 }
 
 const difficultData = [
-    [0, '입문', 'easy'],
-    [1, '기본', 'medium'],
-    [2, '심화', 'hard']
+    [0, '입문', 'EASY'],
+    [1, '기본', 'MEDIUM'],
+    [2, '심화', 'HARD']
 ];
 
 const StudyRegistrationForm = (props) => {
