@@ -1,6 +1,9 @@
-import { useState } from 'react';
-import  Axios from 'axios';
+import { useState, useEffect } from 'react';
+import Axios from 'axios';
+import DateSelectComponent from '../components/dateSelectComponent';
+import DifficultySelectComponent from '../components/difficultySelectComponent';
 import '../css/registeration.css';
+
 
 const weeksData = {
     0 : '월',
@@ -24,7 +27,7 @@ const difficultData = [
     [2, '심화', 'HARD']
 ];
 
-const StudyRegistrationForm = (props) => {
+const StudyRegistrationForm = () => {
     const [name, setName] = useState('');
     const [content, setContent] = useState('');
     const [difficulty, setDifficulty] = useState('');
@@ -32,7 +35,14 @@ const StudyRegistrationForm = (props) => {
     const [weeks, setWeeks] = useState([]);
     const [times, setTimes] = useState([]);
     const [capacity, setCapacity] = useState('');
+    const [current, setCurrent] = useState('');
+    const [selectedDate, setSelectedDate] = useState(new Date(NaN));
     const [mention, setMention] = useState('');
+
+    const handleDateChange = (newDate) => {
+        const selected = new Date(newDate.year, newDate.month-1, newDate.day, newDate.time);
+        setSelectedDate(selected);
+    };
 
     const handleSubmit = async (event) => {
         event.preventDefault();
@@ -44,6 +54,8 @@ const StudyRegistrationForm = (props) => {
             'weeks':weeks,
             'times':times,
             'capacity':capacity,
+            'current':current,
+            'selectedDate':selectedDate, 
             'mention':mention
         };
         
@@ -80,7 +92,7 @@ const StudyRegistrationForm = (props) => {
                         onChange={(e) => setDifficulty(e.target.value)}
                     />
                     {label}
-                    </div>
+            </div>
                 ))}
             </label>
             <label>
@@ -122,6 +134,21 @@ const StudyRegistrationForm = (props) => {
             <label>
                 제한 인원
                 <input type="number" name="limit" value={capacity} min='2' max='10' onChange={(e) => setCapacity(e.target.value)} />
+            </label>
+            <label>
+                현재 인원
+                <input type="number" name="current" value={capacity} min='1' max='10' onChange={(e) => setCurrent(e.target.value)} />
+            </label>
+            <label>
+                스터디 모집 날짜
+                <DateSelectComponent onDateChange={ handleDateChange } />
+                <div>
+                    Selected Date: {
+                        isNaN(selectedDate.getTime())
+                        ? 'Not selected'
+                        : `${selectedDate.toLocaleDateString()}일 ${selectedDate.getHours()}시 모집 시작`
+                    }
+                </div>
             </label>
             <label>
                 알림말
