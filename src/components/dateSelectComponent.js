@@ -1,26 +1,28 @@
-import React, { useState, useRef} from 'react';
+import React, { useState, useRef } from 'react';
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
-import Select from "react-select";
+import Select from 'react-select';
 
 import 'bootstrap/dist/css/bootstrap.min.css';
-
 
 const today = new Date();
 
 function DateSelectPage({ onDateChange }) {
-    const [show, setShow] = useState(false);
-    const dayInputRef = useRef(null);
-    const timeInputRef = useRef(null);
-    const handleClose = () => setShow(false);
-    const handleShow = () => setShow(true);
+  const [show, setShow] = useState(false);
+  const dayInputRef = useRef(null);
+  const timeInputRef = useRef(null);
+  const handleClose = () => setShow(false);
+  const handleShow = () => setShow(true);
 
-    const [date, setDate] = useState({
-        year: today.getFullYear(),
-        month: today.getMonth() + 1,
-        day: '',
-        time: ''
-    });
+  const [date, setDate] = useState({
+    year: today.getFullYear(),
+    month: today.getMonth() + 1,
+    day: '',
+    time: '',
+  });
+
+  const [selectedDay, setSelectedDay] = useState(null);
+  const [selectedTime, setSelectedTime] = useState(null);
     
     const defaultOptions = [
         { value: date.month, label: date.month }
@@ -41,7 +43,8 @@ function DateSelectPage({ onDateChange }) {
     const handleSubmit = () => {
         onDateChange(date);
         handleClose();
-    };
+      };
+    
 
     const onClearSelect = () => {
         if (dayInputRef.current) {
@@ -52,42 +55,46 @@ function DateSelectPage({ onDateChange }) {
         }
     }
 
-    return(
+    return (
         <div>
-            <Button className="btn" variant="outline-primary" onClick={handleShow}>날짜 선택</Button>
-            <Modal show={show} onHide={handleClose}>
-                <Modal.Header>
+          <Button className="btn" variant="outline-primary" onClick={handleShow}>
+            날짜 선택
+          </Button>
+          <Modal show={show} onHide={handleClose}>
+          <Modal.Header>
                     <Modal.Title>스터디 모집날짜 선택</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
-                    <Select
-                        defaultValue={defaultOptions[0]}
-                        isDisabled={true}
-                    />
-                    <Select
-                        ref={dayInputRef}
-                        onChange={(day) => {
-                            if (day) {
-                                setDate((prevState) => ({...prevState, day: day.value}));
-                            } else {
-                                setDate((prevState) => ({...prevState, day: ''}));
-                            }
-                        }}
-                        options={dayOptions}
-                        placeholder="스터디 모집의 시작날을 선택해주세요."
-                    />
-                    <Select
-                        ref={timeInputRef}
-                        onChange={(time) => {
-                            if (time) {
-                                setDate((prevState) => ({...prevState, time: time.value}));
-                            } else {
-                                setDate((prevState) => ({...prevState, time: ''}));
-                            }
-                        }}
-                        options={timeOptions}
-                        placeholder="스터디 모집의 시작시간을 선택해주세요."
-                    />
+                <Select
+                    defaultValue={defaultOptions[0]}
+                    isDisabled={true}
+                />
+                <Select
+                    value={selectedDay}
+                onChange={(day) => {
+                  setSelectedDay(day);
+                  if (day) {
+                    setDate((prevState) => ({ ...prevState, day: day.value }));
+                  } else {
+                    setDate((prevState) => ({ ...prevState, day: '' }));
+                  }
+                }}
+                options={dayOptions}
+                placeholder="스터디 모집의 시작날을 선택해주세요."
+              />
+              <Select
+                value={selectedTime}
+                onChange={(time) => {
+                  setSelectedTime(time);
+                  if (time) {
+                    setDate((prevState) => ({ ...prevState, time: time.value }));
+                  } else {
+                    setDate((prevState) => ({ ...prevState, time: '' }));
+                  }
+                }}
+                options={timeOptions}
+                placeholder="스터디 모집의 시작시간을 선택해주세요."
+              />
                 </Modal.Body>
                 <Modal.Footer>
                     <Button onClick={() => handleSubmit()}>

@@ -1,23 +1,54 @@
-#study-registration-div {
-    position: relative;
-  }
-  
-  .radio-popup {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.5);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    z-index: 1000;
-  }
-  
-  .radio-popup-content {
-    background-color: white;
-    padding: 20px;
-    border-radius: 5px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  }
+.radio-popup {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 50%;
+  height: 50%;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.radio-popup-content {
+  background-color: white;
+  padding: 20px;
+  border-radius: 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  max-width: 300px;
+  width: 100%;
+}
+
+.radio-popup-content div {
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.radio-popup-content input[type="radio"] {
+  margin-right: 8px;
+}
+
+.radio-popup-content button {
+  margin-top: 20px;
+  align-self: flex-end;
+}
+
+.cancel {
+  background-color: #f44336;
+  color: white;
+  padding: 10px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  width: 7%;
+  text-align: center;
+  margin-top: 10px;
+}
+
+.cancel:hover {
+  opacity: 0.8;
+}

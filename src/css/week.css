@@ -1,0 +1,41 @@
+.week-popup {
+    position:fixed;
+    top: 0;
+    left: 0;
+    width: 50%;
+    height: 50%;
+    background-color: rgba(0, 0, 0, 0.5);
+    padding: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .week-popup-content {
+    background-color: white;
+    padding: 5px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  
+  .select-complete,
+  #cancel {
+    background-color: #4caf50;
+    color: white;
+    padding: 5px;
+    border: none;
+    cursor: pointer;
+    width: 7%;
+    text-align: center;
+  }
+  
+  #cancel {
+    background-color: #f44336;
+    margin-top: 10px;
+  }
+  
+  .select-complete:hover,
+  #cancel:hover {
+    opacity: 0.8;
+  }

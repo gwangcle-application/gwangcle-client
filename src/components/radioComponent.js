@@ -1,29 +1,33 @@
-import React from 'react';
+import React, { forwardRef } from 'react';
 
-const RadioSelectPage = ({ show, onClose, options, selected, onSelect }) => {
+
+const RadioSelectPage = forwardRef(({ show, onCancel, options, selected, onSelect }, ref) => {
   if (!show) {
     return null;
   }
 
   return (
-    <div className="radio-popup">
+    <div className="radio-popup" ref={ref}>
       <div className="radio-popup-content">
-        {options.map(([key, label, value]) => (
+        {options.map(([value, label, key]) => (
           <div key={key}>
             <input
               type="radio"
               name="difficulty"
               value={value}
-              checked={selected === value}
-              onChange={(e) => onSelect(e.target.value)}
+              checked={selected === key}
+              onChange={() => onSelect(key)}
             />
             {label}
           </div>
         ))}
-        <button onClick={onClose}>Close</button>
+        <br />
+        <button onClick={onCancel} className="cancel">
+          취소
+        </button>
       </div>
     </div>
   );
-};
+});
 
 export default RadioSelectPage;

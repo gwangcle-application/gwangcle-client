@@ -7,7 +7,6 @@ import TimeSelectPage from '../components/timeSelectComponet';
 
 import '../css/registeration.css';
 
-
 const StudyRegistrationForm = () => {
     const [name, setName] = useState('');
     const [content, setContent] = useState('');
@@ -34,7 +33,6 @@ const StudyRegistrationForm = () => {
             'selectedDate':selectedDate, 
             'mention':mention
         };
-        console.log(data);
         const url = 'http://localhost:8080/api/boards';
         const config = { 'content-type': 'application/json' };
         try {
@@ -43,10 +41,6 @@ const StudyRegistrationForm = () => {
             console.log(error);
         }
     };
-
-    useEffect(() => {
-        handleSubmit();
-    }, []);
 
     return (
         <div id="study-registration-div">    
@@ -62,7 +56,7 @@ const StudyRegistrationForm = () => {
             </label>
             <label>
                 난이도
-                <DifficultySelectPage onDifficultyChange={ (difficulty) => setDifficulty(difficulty) } />
+                <DifficultySelectPage onDifficultyChange={ (difficulty) => setDifficulty(difficulty) } /> <br />
                 <div>
                     Selected difficulty: { difficulty[1] }
                 </div>
@@ -74,18 +68,31 @@ const StudyRegistrationForm = () => {
             <label>
                 요일
                 <WeekSelectPage onWeeksChange = { (weeks) => setWeeks(weeks) } />
+                <br />
+                <div>
+                    Selected weeks: { weeks.join(', ') }
+                </div>
             </label>
             <label>
                 시간대
                 <TimeSelectPage onTimesChange = { (times) => setTimes(times) } />
+                <br />
+                <div>
+                    Selected times: { times.join(', ') }
+                </div>
             </label>
             <label>
                 제한 인원
-                <input type="number" name="limit" value={capacity} min='2' max='10' onChange={(e) => setCapacity(e.target.value)} />
+                <input type="number" name="capacity" value={capacity} min='2' max='10' onChange={(e) => setCapacity(e.target.value)} />
             </label>
             <label>
                 현재 인원
-                <input type="number" name="current" value={capacity} min='1' max='10' onChange={(e) => setCurrent(e.target.value)} />
+                <input type="number" name="current" value={current} min='1' max='10' onChange={(e) => {
+                    const newCurrent = parseInt(e.target.value, 10);
+                    if (newCurrent < parseInt(capacity, 10)) {
+                        setCurrent(newCurrent);
+                    }
+                }} />
             </label>
             <label>
                 스터디 모집 날짜
