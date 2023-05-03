@@ -21,16 +21,10 @@ const timesData = {
     2 : '저녁'
 }
 
-const difficultData = [
-    [0, '입문', 'EASY'],
-    [1, '기본', 'MEDIUM'],
-    [2, '심화', 'HARD']
-];
-
 const StudyRegistrationForm = () => {
     const [name, setName] = useState('');
     const [content, setContent] = useState('');
-    const [difficulty, setDifficulty] = useState('');
+    const [difficulty, setDifficulty] = useState([]);
     const [location, setLocation] = useState('');
     const [weeks, setWeeks] = useState([]);
     const [times, setTimes] = useState([]);
@@ -42,6 +36,10 @@ const StudyRegistrationForm = () => {
     const handleDateChange = (newDate) => {
         const selected = new Date(newDate.year, newDate.month-1, newDate.day, newDate.time);
         setSelectedDate(selected);
+    };
+
+    const handleDifficultyChange = (difficulty) => {
+        setDifficulty(difficulty);
     };
 
     const handleSubmit = async (event) => {
@@ -80,21 +78,10 @@ const StudyRegistrationForm = () => {
                 주제
                 <input type="text" name="content" value={content} onChange={(e) => setContent(e.target.value)} />
             </label>
-            <label>
-                난이도
-                {difficultData.map(([key, label, value]) => (
-                    <div key={key}>
-                    <input
-                        type="radio"
-                        name="difficulty"
-                        value={value}
-                        checked={difficulty === value}
-                        onChange={(e) => setDifficulty(e.target.value)}
-                    />
-                    {label}
-            </div>
-                ))}
-            </label>
+            <DifficultySelectComponent onDifficultyChange={ handleDifficultyChange } />
+            <div>
+                    Selected difficulty: { difficulty[1] }
+                </div>
             <label>
                 위치
                 <input type="text" name="location" value={location} onChange={(e) => setLocation(e.target.value)} />
@@ -141,7 +128,7 @@ const StudyRegistrationForm = () => {
             </label>
             <label>
                 스터디 모집 날짜
-                <DateSelectComponent onDateChange={ handleDateChange } />
+                <DateSelectComponent onDateChange={ handleDateChange } /> <br />
                 <div>
                     Selected Date: {
                         isNaN(selectedDate.getTime())
