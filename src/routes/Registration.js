@@ -1,25 +1,12 @@
 import { useState, useEffect } from 'react';
 import Axios from 'axios';
 import DateSelectComponent from '../components/dateSelectComponent';
-import DifficultySelectComponent from '../components/difficultySelectComponent';
+import DifficultySelectPage from '../components/difficultySelectComponent';
+import WeekSelectPage from '../components/weekSelectComponent';
+import TimeSelectPage from '../components/timeSelectComponet';
+
 import '../css/registeration.css';
 
-
-const weeksData = {
-    0 : '월',
-    1 : '화',
-    2 : '수',
-    3 : '목',
-    4 : '금',
-    5 : '토',
-    6 : '일'
-}
-
-const timesData = {
-    0 :'오전',
-    1 : '오후',
-    2 : '저녁'
-}
 
 const StudyRegistrationForm = () => {
     const [name, setName] = useState('');
@@ -33,21 +20,12 @@ const StudyRegistrationForm = () => {
     const [selectedDate, setSelectedDate] = useState(new Date(NaN));
     const [mention, setMention] = useState('');
 
-    const handleDateChange = (newDate) => {
-        const selected = new Date(newDate.year, newDate.month-1, newDate.day, newDate.time);
-        setSelectedDate(selected);
-    };
-
-    const handleDifficultyChange = (difficulty) => {
-        setDifficulty(difficulty);
-    };
-
     const handleSubmit = async (event) => {
         event.preventDefault();
         const data = {
             'name':name,
             'content':content,
-            'difficulty':difficulty,
+            'difficulty':difficulty[0],
             'location':location,
             'weeks':weeks,
             'times':times,
@@ -56,7 +34,7 @@ const StudyRegistrationForm = () => {
             'selectedDate':selectedDate, 
             'mention':mention
         };
-        
+        console.log(data);
         const url = 'http://localhost:8080/api/boards';
         const config = { 'content-type': 'application/json' };
         try {
@@ -65,6 +43,10 @@ const StudyRegistrationForm = () => {
             console.log(error);
         }
     };
+
+    useEffect(() => {
+        handleSubmit();
+    }, []);
 
     return (
         <div id="study-registration-div">    
@@ -78,45 +60,24 @@ const StudyRegistrationForm = () => {
                 주제
                 <input type="text" name="content" value={content} onChange={(e) => setContent(e.target.value)} />
             </label>
-            <DifficultySelectComponent onDifficultyChange={ handleDifficultyChange } />
-            <div>
+            <label>
+                난이도
+                <DifficultySelectPage onDifficultyChange={ (difficulty) => setDifficulty(difficulty) } />
+                <div>
                     Selected difficulty: { difficulty[1] }
                 </div>
+            </label>
             <label>
                 위치
                 <input type="text" name="location" value={location} onChange={(e) => setLocation(e.target.value)} />
             </label>
             <label>
                 요일
-                {Object.entries(weeksData).map(([key, week]) => (
-                <div key={key}>
-                    <input
-                        type="checkbox"
-                        name="weeks"
-                        value={week}
-                        onChange={(e) =>
-                            setWeeks(e.target.checked ? [...weeks, e.target.value] : weeks.filter((item) => item !== e.target.value))
-                        }
-                    />
-                    {week}
-                </div>
-                ))}
+                <WeekSelectPage onWeeksChange = { (weeks) => setWeeks(weeks) } />
             </label>
             <label>
                 시간대
-                {Object.entries(timesData).map(([key, time]) => (
-                <div key={key}>
-                    <input
-                        type="checkbox"
-                        name="times"
-                        value={time}
-                        onChange={(e) =>
-                            setTimes(e.target.checked ? [...times, e.target.value] : times.filter((item) => item !== e.target.value))
-                        }
-                    />
-                    {time}
-                </div>
-                ))}
+                <TimeSelectPage onTimesChange = { (times) => setTimes(times) } />
             </label>
             <label>
                 제한 인원
@@ -128,7 +89,11 @@ const StudyRegistrationForm = () => {
             </label>
             <label>
                 스터디 모집 날짜
-                <DateSelectComponent onDateChange={ handleDateChange } /> <br />
+                <DateSelectComponent onDateChange={ (newDate) => {
+                    const selected = new Date(newDate.year, newDate.month-1, newDate.day, newDate.time);
+                    setSelectedDate(selected);
+                }} />
+                <br />
                 <div>
                     Selected Date: {
                         isNaN(selectedDate.getTime())
