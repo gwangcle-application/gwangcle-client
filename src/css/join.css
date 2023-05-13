@@ -1,0 +1,45 @@
+.join-page {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    max-width: 400px;
+    margin: 0 auto;
+    padding: 20px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    background-color: #ffffff;
+  }
+  
+  .join-page h2 {
+    margin-bottom: 20px;
+  }
+  
+  .join-page fieldset {
+    width: 100%;
+    margin-bottom: 20px;
+  }
+  
+  .join-page legend {
+    font-weight: bold;
+    margin-bottom: 10px;
+  }
+  
+  .join-page label {
+    display: inline-block;
+    margin-right: 10px;
+    cursor: pointer;
+  }
+  
+  .join-page button {
+    padding: 10px 20px;
+    background-color: #007bff;
+    border: none;
+    border-radius: 4px;
+    color: #ffffff;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+  }
+  
+  .join-page button:hover {
+    background-color: #0056b3;
+  }
