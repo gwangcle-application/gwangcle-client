@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import Axios from 'axios';
 import DateSelectComponent from '../components/dateSelectComponent';
 import DifficultySelectPage from '../components/difficultySelectComponent';
@@ -33,10 +33,11 @@ const StudyRegistrationForm = () => {
             'selectedDate':selectedDate, 
             'mention':mention
         };
-        const url = 'http://localhost:8080/api/boards';
-        const config = { 'content-type': 'application/json' };
+        const id = localStorage.getItem("id");
+        const url = `http://localhost:8080/api/boards/members/${id}`;
+        const config = { headers: { 'Content-Type': 'application/json' } };
         try {
-            const request = await Axios.post(url, data, config);
+            await Axios.post(url, data, config);
         } catch (error) {
             console.log(error);
         }
